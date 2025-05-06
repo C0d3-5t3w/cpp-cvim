@@ -1,0 +1,45 @@
+# Default configuration for cpp-cvim
+
+# General settings
+settings:
+  tabSize: 4
+  expandTab: true
+  lineNumbers: true
+  relativeLine: false
+  wrapText: false
+  syntax: true
+  autoIndent: true
+  showStatusLine: true
+  theme: default
+
+# Color scheme
+colors:
+  foreground: 7  # White
+  background: 0  # Black
+  selection: 4   # Blue
+  lineNumber: 2  # Green
+  statusLine: 3  # Cyan
+  commandLine: 5 # Magenta
+  errorMessage: 1 # Red
+  keyword: 5     # Magenta
+  string: 2      # Green
+  comment: 6     # Brown
+  number: 3      # Cyan
+
+# Custom key bindings
+keybindings:
+  - mode: normal
+    key: "H"
+    action: "gotoLineStart"
+  
+  - mode: normal
+    key: "L"
+    action: "gotoLineEnd"
+  
+  - mode: normal
+    key: "J"
+    action: "joinLines"
+  
+  - mode: normal 
+    key: "K"
+    action: "showHelp"
