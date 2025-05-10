@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <pwd.h>
+#include <cctype> // For std::isspace
 
 namespace cvim {
 

@@ -17,7 +17,7 @@ class FileTree;
 class TabManager;
 class HotkeyManager;
 
-enum class Mode {
+enum Mode { // Changed from enum class
     NORMAL,
     INSERT,
     VISUAL,
@@ -56,7 +56,7 @@ struct EditorState {
     std::string statusMessage;
     bool quit;
     
-    EditorState() : mode(Mode::NORMAL), quit(false) {}
+    EditorState() : mode(NORMAL), quit(false) {} // Adjusted for enum
 };
 
 class Editor {

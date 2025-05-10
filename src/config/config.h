@@ -9,7 +9,7 @@
 
 namespace cvim {
 
-enum class ColorTheme {
+enum ColorTheme { // Changed from enum class
     DEFAULT,
     LIGHT,
     DARK,

@@ -1,7 +1,7 @@
 #include "hotkeys.h"
-#include "editor.h"
+#include "editor.h" // Includes Mode enum definition
 #include "buffer_utils.h"
-#include <functional>  // Add include for std::function
+#include <functional>
 
 namespace cvim {
 
@@ -19,11 +19,11 @@ void HotkeyManager::setEditor(Editor* editor) {
 }
 
 void HotkeyManager::addNormalModeBinding(Key key, std::function<void()> action) {
-    keyBindings_[static_cast<int>(Mode::NORMAL)][key] = action;  // Cast enum to int for map key
+    keyBindings_[static_cast<int>(Mode::NORMAL)][key] = action;
 }
 
 void HotkeyManager::addNormalModeBinding(char key, std::function<void()> action) {
-    charBindings_[static_cast<int>(Mode::NORMAL)][key] = action;  // Cast enum to int for map key
+    charBindings_[static_cast<int>(Mode::NORMAL)][key] = action;
 }
 
 void HotkeyManager::addVisualModeBinding(Key key, std::function<void()> action) {
@@ -53,7 +53,7 @@ void HotkeyManager::addCommandModeBinding(char key, std::function<void()> action
 bool HotkeyManager::handleKey(Mode mode, const KeyInput& input) {
     if (!editor_) return false;
     
-    int modeInt = static_cast<int>(mode);  // Cast to int for map lookup
+    int modeInt = static_cast<int>(mode);
     
     // First check key bindings
     auto modeKeyBindings = keyBindings_.find(modeInt);

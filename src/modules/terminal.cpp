@@ -88,7 +88,7 @@ void Terminal::shutdown() {
 
 KeyInput Terminal::getInput() {
     KeyInput input;
-    input.key = Key::UNKNOWN;
+    input.key = UNKNOWN;
     input.character = 0;
     input.shift = false;
     input.ctrl = false;
@@ -99,12 +99,12 @@ KeyInput Terminal::getInput() {
         if (c == 27) { // ESC sequence
             char seq[3];
             if (read(STDIN_FILENO, &seq[0], 1) != 1) {
-                input.key = Key::ESCAPE;
+                input.key = ESCAPE;
                 input.character = 27;
                 return input;
             }
             if (read(STDIN_FILENO, &seq[1], 1) != 1) {
-                input.key = Key::ESCAPE;
+                input.key = ESCAPE;
                 input.character = 27;
                 return input;
             }
@@ -114,21 +114,21 @@ KeyInput Terminal::getInput() {
                     if (read(STDIN_FILENO, &seq[2], 1) != 1) return input;
                     if (seq[2] == '~') {
                         switch (seq[1]) {
-                            case '1': input.key = Key::HOME; return input;
-                            case '3': input.key = Key::DELETE; return input;
-                            case '4': input.key = Key::END; return input;
-                            case '5': input.key = Key::PAGE_UP; return input;
-                            case '6': input.key = Key::PAGE_DOWN; return input;
+                            case '1': input.key = HOME; return input;
+                            case '3': input.key = DELETE; return input;
+                            case '4': input.key = END; return input;
+                            case '5': input.key = PAGE_UP; return input;
+                            case '6': input.key = PAGE_DOWN; return input;
                         }
                     }
                 } else {
                     switch (seq[1]) {
-                        case 'A': input.key = Key::UP; return input;
-                        case 'B': input.key = Key::DOWN; return input;
-                        case 'C': input.key = Key::RIGHT; return input;
-                        case 'D': input.key = Key::LEFT; return input;
-                        case 'H': input.key = Key::HOME; return input;
-                        case 'F': input.key = Key::END; return input;
+                        case 'A': input.key = UP; return input;
+                        case 'B': input.key = DOWN; return input;
+                        case 'C': input.key = RIGHT; return input;
+                        case 'D': input.key = LEFT; return input;
+                        case 'H': input.key = HOME; return input;
+                        case 'F': input.key = END; return input;
                     }
                 }
             }
@@ -136,20 +136,20 @@ KeyInput Terminal::getInput() {
             // Handle control keys
             if (c < 32) {
                 switch (c) {
-                    case 13: input.key = Key::ENTER; input.character = c; return input;
-                    case 9: input.key = Key::TAB; input.character = c; return input;
-                    case 127: input.key = Key::BACKSPACE; input.character = c; return input;
-                    case 1: input.key = Key::CTRL_A; input.character = c; input.ctrl = true; return input;
-                    case 2: input.key = Key::CTRL_B; input.character = c; input.ctrl = true; return input;
-                    case 3: input.key = Key::CTRL_C; input.character = c; input.ctrl = true; return input;
-                    case 4: input.key = Key::CTRL_D; input.character = c; input.ctrl = true; return input;
-                    case 5: input.key = Key::CTRL_E; input.character = c; input.ctrl = true; return input;
-                    case 6: input.key = Key::CTRL_F; input.character = c; input.ctrl = true; return input;
+                    case 13: input.key = ENTER; input.character = c; return input;
+                    case 9: input.key = TAB; input.character = c; return input;
+                    case 127: input.key = BACKSPACE; input.character = c; return input;
+                    case 1: input.key = CTRL_A; input.character = c; input.ctrl = true; return input;
+                    case 2: input.key = CTRL_B; input.character = c; input.ctrl = true; return input;
+                    case 3: input.key = CTRL_C; input.character = c; input.ctrl = true; return input;
+                    case 4: input.key = CTRL_D; input.character = c; input.ctrl = true; return input;
+                    case 5: input.key = CTRL_E; input.character = c; input.ctrl = true; return input;
+                    case 6: input.key = CTRL_F; input.character = c; input.ctrl = true; return input;
                     // and so on for other control keys
-                    default: input.key = Key::NORMAL; input.character = c; return input;
+                    default: input.key = NORMAL; input.character = c; return input;
                 }
             } else {
-                input.key = Key::NORMAL;
+                input.key = NORMAL;
                 input.character = c;
                 return input;
             }

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <algorithm> // For std::remove_if
 
 // Check if yaml-cpp is available
 #ifdef HAS_YAML_CPP
@@ -142,8 +143,8 @@ bool Config::saveToFile(const std::string& path) {
         YAML::Node config;
         
         // General settings
-        for (const auto& [key, value] : settings_) {
-            config["settings"][key] = value;
+        for (std::map<std::string, std::string>::const_iterator it = settings_.begin(); it != settings_.end(); ++it) {
+            config["settings"][it->first] = it->second;
         }
         
         // Color scheme

@@ -3,7 +3,7 @@
 
 #include <map>
 #include <string>
-#include <functional>  // Make sure this is included
+#include <functional>
 #include "terminal.h"
 #include "editor.h"
 
@@ -43,9 +43,8 @@ public:
     
 private:
     Editor* editor_;
-    // Use int as map keys instead of enum class which can't be implicitly converted
-    std::map<int, std::map<Key, std::function<void()>>> keyBindings_;
-    std::map<int, std::map<char, std::function<void()>>> charBindings_;
+    std::map<int, std::map<Key, std::function<void()> > > keyBindings_;
+    std::map<int, std::map<char, std::function<void()> > > charBindings_;
 };
 
 } // namespace cvim

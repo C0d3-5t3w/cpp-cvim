@@ -7,7 +7,7 @@
 
 namespace cvim {
 
-enum class Key {
+enum Key { // Changed from enum class
     NORMAL,
     ESCAPE,
     ENTER,

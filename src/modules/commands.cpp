@@ -3,7 +3,7 @@
 #include "../utils/utils.h"
 #include <sstream>
 #include <algorithm>
-#include <functional> // Add this for std::function
+#include <functional>
 
 namespace cvim {
 
@@ -56,7 +56,7 @@ bool CommandProcessor::executeCommand(const std::string& command) {
     std::string cmd = args[0];
     args.erase(args.begin());
     
-    auto it = commands_.find(cmd);
+    std::map<std::string, std::function<bool(const std::vector<std::string>&)> >::iterator it = commands_.find(cmd);
     if (it != commands_.end()) {
         return it->second(args);
     }
@@ -68,9 +68,9 @@ bool CommandProcessor::executeCommand(const std::string& command) {
 std::vector<std::string> CommandProcessor::getCompletions(const std::string& partial) {
     std::vector<std::string> completions;
     
-    for (const auto& cmd : commands_) {
-        if (cmd.first.find(partial) == 0) {
-            completions.push_back(cmd.first);
+    for (std::map<std::string, std::function<bool(const std::vector<std::string>&)> >::const_iterator it = commands_.begin(); it != commands_.end(); ++it) {
+        if (it->first.find(partial) == 0) {
+            completions.push_back(it->first);
         }
     }
     

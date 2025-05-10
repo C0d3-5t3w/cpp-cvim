@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <functional> // Added as safeguard
 
 namespace cvim {
 

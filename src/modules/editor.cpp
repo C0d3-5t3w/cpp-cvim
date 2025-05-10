@@ -1,15 +1,16 @@
 #include "editor.h"
 #include "buffer_utils.h"
 #include "tabs.h"
-#include "commands.h"
+#include "commands.h" // commands.h includes <functional>
 #include "filetree.h"
-#include "hotkeys.h"
+#include "hotkeys.h"  // hotkeys.h includes <functional>
 #include "../config/config.h"
 #include "../utils/utils.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <algorithm>
+#include <functional> // Added as safeguard
 
 namespace cvim {
 
@@ -156,18 +157,18 @@ void Editor::handleInput(const KeyInput& input) {
     }
     
     // Otherwise use the mode-specific handlers
-    switch (state_.mode) {
-        case Mode::NORMAL:
+    switch (state_.mode) { // Now uses plain enum Mode
+        case NORMAL:
             handleNormalMode(input);
             break;
-        case Mode::INSERT:
+        case INSERT:
             handleInsertMode(input);
             break;
-        case Mode::VISUAL:
-        case Mode::VISUAL_LINE:
+        case VISUAL:
+        case VISUAL_LINE:
             handleVisualMode(input);
             break;
-        case Mode::COMMAND:
+        case COMMAND:
             handleCommandMode(input);
             break;
     }
@@ -226,17 +227,17 @@ bool Editor::shouldQuit() const {
 }
 
 void Editor::handleNormalMode(const KeyInput& input) {
-    if (input.key == Key::ESCAPE) {
+    if (input.key == Key::ESCAPE) { // Key is now plain enum
         // Clear any pending operation
         state_.statusMessage = "";
     } else if (input.key == Key::NORMAL && input.character == ':') {
-        setMode(Mode::COMMAND);
+        setMode(COMMAND);
     } else if (input.key == Key::NORMAL && input.character == 'i') {
-        setMode(Mode::INSERT);
+        setMode(INSERT);
     } else if (input.key == Key::NORMAL && input.character == 'v') {
-        setMode(Mode::VISUAL);
+        setMode(VISUAL);
     } else if (input.key == Key::NORMAL && input.character == 'V') {
-        setMode(Mode::VISUAL_LINE);
+        setMode(VISUAL_LINE);
     } else {
         // Check for movement keys
         handleMovement(input);
@@ -248,7 +249,7 @@ void Editor::handleNormalMode(const KeyInput& input) {
 
 void Editor::handleInsertMode(const KeyInput& input) {
     if (input.key == Key::ESCAPE) {
-        setMode(Mode::NORMAL);
+        setMode(NORMAL);
     } else if (input.key == Key::NORMAL) {
         auto buffer = getCurrentBuffer();
         if (buffer) {
@@ -284,7 +285,7 @@ void Editor::handleInsertMode(const KeyInput& input) {
 
 void Editor::handleVisualMode(const KeyInput& input) {
     if (input.key == Key::ESCAPE) {
-        setMode(Mode::NORMAL);
+        setMode(NORMAL);
         clearSelection();
     } else {
         // Visual mode movements and operations
@@ -293,12 +294,12 @@ void Editor::handleVisualMode(const KeyInput& input) {
 
 void Editor::handleCommandMode(const KeyInput& input) {
     if (input.key == Key::ESCAPE) {
-        setMode(Mode::NORMAL);
+        setMode(NORMAL);
         clearCommandBuffer();
     } else if (input.key == Key::ENTER) {
         executeCommand(state_.commandBuffer);
         clearCommandBuffer();
-        setMode(Mode::NORMAL);
+        setMode(NORMAL);
     } else if (input.key == Key::BACKSPACE) {
         backspaceCommandBuffer();
     } else if (input.key == Key::NORMAL) {
@@ -431,11 +432,12 @@ void Editor::setMode(Mode newMode) {
 
 std::string Editor::getModeString(Mode mode) const {
     // Use if-else instead of switch for enum class
-    if (mode == Mode::NORMAL) return "NORMAL";
-    else if (mode == Mode::INSERT) return "INSERT";
-    else if (mode == Mode::VISUAL) return "VISUAL";
-    else if (mode == Mode::VISUAL_LINE) return "VISUAL LINE";
-    else if (mode == Mode::COMMAND) return "COMMAND";
+    // Now that Mode is a plain enum, switch is fine, but if-else also works
+    if (mode == NORMAL) return "NORMAL";
+    else if (mode == INSERT) return "INSERT";
+    else if (mode == VISUAL) return "VISUAL";
+    else if (mode == VISUAL_LINE) return "VISUAL LINE";
+    else if (mode == COMMAND) return "COMMAND";
     else return "UNKNOWN";
 }
 
@@ -502,7 +504,7 @@ void Editor::cleanup() {
     clearSelection();
     
     // Reset state
-    state_.mode = Mode::NORMAL;
+    state_.mode = NORMAL;
     state_.commandBuffer.clear();
     state_.statusMessage.clear();
 }
